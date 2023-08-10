@@ -29,6 +29,7 @@ parse_args() {
             kubeconfig_to_merge_into_target="$1"
         else
             echo "error: the specified kubeconfig is not a valid file"
+            exit 1
         fi
     fi
 
@@ -61,11 +62,12 @@ backup_kubeconfig() {
 merge_kubeconfig() {
 
     tmp_kubeconfig_path=/tmp/kubeconfig
-    echo "$kubeconfig_to_merge_into_target"
 
     # Merge the two config files together into a new config file
     echo "Merging kubeconfig..."
-    KUBECONFIG="$target_kubeconfig":"$kubeconfig_to_merge_into_target" kubectl config view --flatten > "$tmp_kubeconfig_path"
+    if ! KUBECONFIG="$target_kubeconfig":"$kubeconfig_to_merge_into_target" kubectl config view --flatten > "$tmp_kubeconfig_path"; then
+        exit 1
+    fi
 
     # Replace your old config with the new merged config
     if [ -f "$tmp_kubeconfig_path" ]; then
