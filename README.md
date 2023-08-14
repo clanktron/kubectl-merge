@@ -15,7 +15,7 @@ kubectl merge file1 file2
 ## General Notes
 
 - the script automatically makes a backup of your target kubeconfig
-- make sure you don't have conflicting cluster/user/context names in any of your files as this script does perform any special handling for such
+- make sure you don't have conflicting cluster/user/context names in any of your files as this script doesn't perform any special handling for such
 
 ---
 
