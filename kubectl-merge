@@ -78,6 +78,11 @@ merge_kubeconfig() {
         exit 1
     fi
 
+    if ! chmod 600 "$target_kubeconfig"; then
+        echo "error: failed to set proper permission bits for kubeconfig"
+        exit 1
+    fi
+
     # (optional) Delete the backup
     # rm "$target_kubeconfig".bak
 }
